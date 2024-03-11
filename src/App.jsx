@@ -5,8 +5,8 @@ import './App.css'
 import Navi from './component/navicate'
 import Tools from './component/tools'
 import ShowData from './component/datashow'
-import MyComponent from './component/test'
-
+import IneractiveRust from './component/rust'
+import GetListFromRust from './component/rust_list'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -14,8 +14,9 @@ function App() {
     <>
       <Tools />
       <Navi />
-      <ShowData />
-      <MyComponent />
+      <IneractiveRust />
+      <GetListFromRust />
+      
     </>
   )
 }
