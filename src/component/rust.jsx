@@ -46,7 +46,6 @@ export default function IneractiveRust() {
             <p>dddddddddddddd</p>
             <Button type="primary" onClick={handleButtonClick}>点击按钮调用rust</Button>
             <p>{showParagraph}</p>
-
         </>
     )
 }

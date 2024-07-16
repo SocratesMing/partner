@@ -16,7 +16,6 @@ function App() {
       <Navi />
       <IneractiveRust />
       <GetListFromRust />
-      
     </>
   )
 }

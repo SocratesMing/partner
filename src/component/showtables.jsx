@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Table } from 'antd';
-import { invoke } from '@tauri-apps/api'
 const columns = [
     {
         title: 'Name',

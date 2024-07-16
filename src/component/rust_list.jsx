@@ -9,6 +9,7 @@ export default function GetListFromRust() {
     const parentToChild = () => {
         setData("This is data from Parent Component to the Child Component.");
     }
+    
     const handleButtonClick = () => {
         let hello = invoke('students')
             // `invoke` 返回的是一个 Promise
