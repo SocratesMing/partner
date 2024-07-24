@@ -1,54 +1,123 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Flex, Menu } from 'antd';
+import { Flex, Menu, Button } from 'antd';
 import ShowData from './datashow';
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-const items = [
-  getItem('CSV文件', 'sub1', <MailOutlined />, [
-    getItem('Option 1', '1'),
-  ]),
-  getItem('Parquet文件', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 5', '5'),
-  ]),
-];
+import { open } from '@tauri-apps/api/dialog';
 
-// submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+let initialNavi = [{
+  label: 'csv file',
+  key: 'mail',
+  children: [
+    {
+      key: 12,
+      label: 'Option 13',
+    },
+  ]
+},
+{
+  label: 'parquet file',
+  key: 'app',
+  children: []
+},]
+
+
+const initialTabs = [
+  // {
+  //   label: 'Tab 1',
+  //   children: <ShowTables />,
+  //   key: '1',
+  // },
+];
 const Navi = () => {
-  const [openKeys, setOpenKeys] = useState(['sub1']);
-  const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+
+  const [current, setCurrent] = useState(initialNavi);
+  const [tabs, setTabs] = useState(initialTabs);
+  const [key, setKey] = useState(1);
+  const [used, setUsed] = useState([]);
+
+  // 打开文件读取对话框
+  async function selectFile() {
+    try {
+      // 弹出文件选择对话框
+      const selected = await open({
+        multiple: false, // 不允许多选
+        filters: [
+          { name: 'All Files', extensions: ['*'] }
+        ]
+      });
+
+      // 检查用户是否选择了文件
+      if (selected) {
+        console.log(`Selected file: ${selected}`);
+        let file_name = selected.split('\\').pop()
+        let file = file_name.split(".")[0]
+        console.log(`file name: ${file_name}`);
+        console.log(`file: ${file}`);
+
+
+        setCurrent(current.map((e, i) => {
+          if (e.label.includes("csv") && file_name.endsWith("csv")) {
+            setKey(i + 1)
+
+            if (used.includes(file)) {
+              console.log("已经选择了文件", selected)
+            } else {
+              setUsed([...used, file])
+              e["children"] = [...e["children"], {
+                key: key,
+                label: file,
+              },]
+            }
+
+          } else if (e.label.includes("parquet") && file_name.endsWith("parquet")) {
+            setKey(i + 1)
+
+            if (used.includes(file)) {
+              console.log("已经选择了文件", selected)
+            } else {
+              setUsed([...used, file])
+              e["children"] = [...e["children"], {
+                key: key,
+                label: file,
+              },]
+            }
+          }
+          return e;
+        }))
+
+
+      } else {
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Error selecting file:', error);
     }
-  };
+  }
+
+
+
+
   return (
     <>
+      <Flex gap="small" wrap="wrap">
+        <Button type="primary" onClick={selectFile}>选择文件</Button>
+      </Flex>
+
       <Flex horizontal>
         <Menu
           mode="inline"
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
+          // openKeys={openKeys}
+          // onOpenChange={onOpenChange}
           style={{
-            width: 256,
+            width: 156,
           }}
-          items={items}
+          items={current}
         />
-        <ShowData />
       </Flex>
 
     </>
 
   );
 };
+
 export default Navi;
