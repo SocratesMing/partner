@@ -3,7 +3,6 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Navi from './component/navicate'
-import Tools from './component/tools'
 import ShowData from './component/datashow'
 import IneractiveRust from './component/rust'
 import GetListFromRust from './component/rust_list'
@@ -12,10 +11,11 @@ function App() {
 
   return (
     <>
-      <Tools />
+      {/* <Tools /> */}
       <Navi />
-      <IneractiveRust />
-      <GetListFromRust />
+      {/* <IneractiveRust />
+      <GetListFromRust /> */}
+      
     </>
   )
 }

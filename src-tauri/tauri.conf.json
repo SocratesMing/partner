@@ -12,7 +12,13 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": true,
+      "dialog": {
+        "open": true
+      },
+      "fs": {
+        "all": true
+      }
     },
     "bundle": {
       "active": true,
@@ -48,7 +54,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp":  "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
     },
     "updater": {
       "active": false
